@@ -5,14 +5,16 @@ This is the production version of the University Room Management backend API, wi
 ## Getting Started
 
 1. Install dependencies:
+
 ```
 npm install
 ```
 
 2. Set up environment variables:
-Copy the `.env.example` file to `.env` and fill in your database credentials.
+   Copy the `.env.example` file to `.env` and fill in your database credentials.
 
 3. Start the server:
+
 ```
 npm start
 ```
@@ -20,6 +22,7 @@ npm start
 ## Environment Variables
 
 Required environment variables:
+
 ```
 DB_HOST=aws-0-eu-north-1.pooler.supabase.com
 DB_USER=postgres.nezwavnslymfssrlsxbj
