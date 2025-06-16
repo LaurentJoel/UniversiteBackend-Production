@@ -129,13 +129,15 @@ async function updateStudent(req, res) {
             }
             // Check current occupancy (excluding this student if they're changing rooms)
             const currentOccupants = await StudentModel.getStudentsByRoomId(roomId);
-            if (currentOccupants.length >= room.maxOccupancy) {
+            // If the student is already in this room, exclude them from the count
+            const occupantsExcludingCurrentStudent = currentOccupants.filter(occupant => occupant.id !== studentId);
+            if (occupantsExcludingCurrentStudent.length >= room.maxOccupancy) {
                 return res.status(400).json({
-                    error: `Room is full. Maximum capacity: ${room.maxOccupancy}, Current occupants: ${currentOccupants.length}`
+                    error: `Room is full. Maximum capacity: ${room.maxOccupancy}, Current occupants: ${occupantsExcludingCurrentStudent.length}`
                 });
             }
-            // Update new room status
-            const newOccupancy = currentOccupants.length + 1;
+            // Calculate new occupancy (excluding current student, then adding them back)
+            const newOccupancy = occupantsExcludingCurrentStudent.length + 1;
             let newStatus = room.status;
             if (newOccupancy >= room.maxOccupancy) {
                 newStatus = 'complet';
